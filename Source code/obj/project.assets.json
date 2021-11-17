@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Motorola ScienceCup\\Interpreter ATARI Logo\\Interpreter ATARI Logo.csproj",
+      "projectUniqueName": "D:\\Motorola ScienceCup\\Interpreter-ATARI-Logo\\Source code\\Interpreter ATARI Logo.csproj",
       "projectName": "Interpreter ATARI Logo",
-      "projectPath": "D:\\Motorola ScienceCup\\Interpreter ATARI Logo\\Interpreter ATARI Logo.csproj",
+      "projectPath": "D:\\Motorola ScienceCup\\Interpreter-ATARI-Logo\\Source code\\Interpreter ATARI Logo.csproj",
       "packagesPath": "C:\\Users\\micha\\.nuget\\packages\\",
-      "outputPath": "D:\\Motorola ScienceCup\\Interpreter ATARI Logo\\obj\\",
+      "outputPath": "D:\\Motorola ScienceCup\\Interpreter-ATARI-Logo\\Source code\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\micha\\AppData\\Roaming\\NuGet\\NuGet.Config",

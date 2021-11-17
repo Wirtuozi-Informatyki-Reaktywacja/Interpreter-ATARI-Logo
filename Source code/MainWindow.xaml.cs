@@ -23,6 +23,28 @@ namespace Interpreter_ATARI_Logo
         public MainWindow()
         {
             InitializeComponent();
+
+            UpdateBottomOverlay();
+        }
+
+        private void UpdateBottomOverlay(object sender = null, RoutedEventArgs e = null)
+        {
+            bool output = showOutput.IsChecked;
+            bool editor = showEditor.IsChecked;
+
+            if (output || editor)
+            {
+                bottomOverlay.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                bottomOverlay.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void CloseWindow(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

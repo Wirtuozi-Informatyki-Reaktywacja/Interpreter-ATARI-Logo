@@ -1,0 +1,20 @@
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\bin\Debug\netcoreapp3.1\Interpreter ATARI Logo.exe
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\bin\Debug\netcoreapp3.1\Interpreter ATARI Logo.deps.json
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\bin\Debug\netcoreapp3.1\Interpreter ATARI Logo.runtimeconfig.json
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\bin\Debug\netcoreapp3.1\Interpreter ATARI Logo.runtimeconfig.dev.json
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\bin\Debug\netcoreapp3.1\Interpreter ATARI Logo.dll
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\bin\Debug\netcoreapp3.1\Interpreter ATARI Logo.pdb
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Debug\netcoreapp3.1\Interpreter ATARI Logo.csproj.AssemblyReference.cache
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Debug\netcoreapp3.1\MainWindow.g.cs
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Debug\netcoreapp3.1\App.g.cs
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Debug\netcoreapp3.1\Interpreter ATARI Logo_MarkupCompile.cache
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Debug\netcoreapp3.1\Interpreter ATARI Logo_MarkupCompile.lref
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Debug\netcoreapp3.1\MainWindow.baml
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Debug\netcoreapp3.1\Interpreter ATARI Logo.g.resources
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Debug\netcoreapp3.1\Interpreter ATARI Logo.GeneratedMSBuildEditorConfig.editorconfig
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Debug\netcoreapp3.1\Interpreter ATARI Logo.AssemblyInfoInputs.cache
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Debug\netcoreapp3.1\Interpreter ATARI Logo.AssemblyInfo.cs
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Debug\netcoreapp3.1\Interpreter ATARI Logo.csproj.CoreCompileInputs.cache
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Debug\netcoreapp3.1\Interpreter ATARI Logo.dll
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Debug\netcoreapp3.1\Interpreter ATARI Logo.pdb
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Debug\netcoreapp3.1\Interpreter ATARI Logo.genruntimeconfig.cache
