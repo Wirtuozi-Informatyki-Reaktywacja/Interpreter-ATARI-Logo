@@ -20,11 +20,52 @@ namespace Interpreter_ATARI_Logo
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static RoutedCommand Execute = new RoutedCommand();
+        public static List<Turtle> turtles = new List<Turtle>();
+
+        double canvasWidth;
+        double canvasHeight;
+
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();   
 
             UpdateBottomOverlay();
+
+            ContentRendered += Window_ContentRendered;
+            board.SizeChanged += Board_SizeChanged;
+
+            Execute.InputGestures.Add(new KeyGesture(Key.F6));
+        }
+
+        private void Board_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double widthDiffrence = (canvasWidth - board.ActualWidth) / 2;
+            double heightDiffrence = (canvasHeight - board.ActualHeight) / 2;
+
+
+
+            foreach (Turtle turtle in turtles)
+            {
+                double size = turtle.Size;
+
+                double currentLeft = (double)turtle.GetValue(Canvas.LeftProperty);
+                double currentTop = (double)turtle.GetValue(Canvas.TopProperty);
+
+                turtle.SetValue(Canvas.LeftProperty, currentLeft - widthDiffrence);
+                turtle.SetValue(Canvas.TopProperty, currentTop - heightDiffrence);
+            }
+
+            canvasWidth = board.ActualWidth;
+            canvasHeight = board.ActualHeight;
+        }
+
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            canvasWidth = board.ActualWidth;
+            canvasHeight = board.ActualHeight;
+
+            AddTurtle();
         }
 
         private void UpdateBottomOverlay(object sender = null, RoutedEventArgs e = null)
@@ -71,6 +112,20 @@ namespace Interpreter_ATARI_Logo
             }
         }
 
+        private void AddTurtle()
+        {
+            Turtle turtle = new Turtle();
+
+            double size = turtle.Size;
+
+            turtle.SetValue(Canvas.LeftProperty, canvasWidth / 2 - size / 2);
+            turtle.SetValue(Canvas.TopProperty, canvasHeight / 2 - size / 2);
+
+            turtles.Add(turtle);
+
+            board.Children.Add(turtle);
+        }
+
         private void CloseWindow(object sender, RoutedEventArgs e)
         {
             Close();
@@ -92,6 +147,11 @@ namespace Interpreter_ATARI_Logo
                     UpdateBottomOverlay();
                     break;
             }
+        }
+
+        private void Command_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            Interpreter.ProccessInput();
         }
     }
 }

@@ -6,25 +6,33 @@
 		xmlns:local="clr-namespace:Interpreter_ATARI_Logo"
 		mc:Ignorable="d"
 		Title="Interpreter ATARI Logo" Height="720" Width="1280" MinHeight="670" MinWidth="800" Background="#1E1E1E">
-	<Grid>
-		<Menu VerticalAlignment="Top" Background="#333333" VerticalContentAlignment="Center">
-			<MenuItem HorizontalContentAlignment="Center">
-				<MenuItem.Header>
-					<AccessText Foreground="#8E8E8E" FontSize="12" VerticalAlignment="Center" Margin="5">_File</AccessText>
-				</MenuItem.Header>
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:MainWindow.Execute}" Executed="Command_Execute"/>
+    </Window.CommandBindings>
+    
+    <Grid>
+        <Canvas Margin="0 35 0 0" Name="board">
 
-				<Separator/>
-				<MenuItem Header="_Exit" Click="CloseWindow"/>
-			</MenuItem>
-			
-			<MenuItem HorizontalContentAlignment="Center">
-				<MenuItem.Header>
-					<AccessText Foreground="#8E8E8E" FontSize="12" VerticalAlignment="Center" Margin="5">_Window</AccessText>
-				</MenuItem.Header>
+        </Canvas>
 
-				<MenuItem Name="showOutput" Header="_Show output" IsCheckable="True" IsChecked="false" Click="UpdateBottomOverlay"/>
-				<MenuItem Name="showEditor" Header="_Show editor" IsCheckable="True" IsChecked="true" Click="UpdateBottomOverlay"/>
-			</MenuItem>
+        <Menu VerticalAlignment="Top" Background="#333333" VerticalContentAlignment="Center">
+            <MenuItem HorizontalContentAlignment="Center">
+                <MenuItem.Header>
+                    <AccessText Foreground="#8E8E8E" FontSize="12" VerticalAlignment="Center" Margin="5">_File</AccessText>
+                </MenuItem.Header>
+
+                <Separator/>
+                <MenuItem Header="_Exit" Click="CloseWindow"/>
+            </MenuItem>
+
+            <MenuItem HorizontalContentAlignment="Center">
+                <MenuItem.Header>
+                    <AccessText Foreground="#8E8E8E" FontSize="12" VerticalAlignment="Center" Margin="5">_Window</AccessText>
+                </MenuItem.Header>
+
+                <MenuItem Name="showOutput" Header="_Show output" IsCheckable="True" IsChecked="false" Click="UpdateBottomOverlay"/>
+                <MenuItem Name="showEditor" Header="_Show editor" IsCheckable="True" IsChecked="true" Click="UpdateBottomOverlay"/>
+            </MenuItem>
 
             <MenuItem HorizontalContentAlignment="Center">
                 <MenuItem.Header>
@@ -35,26 +43,22 @@
                 <MenuItem Header="_Execute" Click="CloseWindow"/>
             </MenuItem>
         </Menu>
-        
-		<Canvas Margin="0 35 0 0">
 
-		</Canvas>
-        
-		<Grid Name="bottomOverlay" VerticalAlignment="Stretch" Margin="0 35 0 0">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="2*"/>
-				<RowDefinition Height="4"/>
-				<RowDefinition Height="*" MinHeight="75"/>
-			</Grid.RowDefinitions>
-			
-			<GridSplitter VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Background="#414141" Margin="0 1"/>
-			
-			<Grid Grid.Row="2">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="3*" MinWidth="100"/>
-					<ColumnDefinition Width="4"/>
+        <Grid Name="bottomOverlay" VerticalAlignment="Stretch" Margin="0 35 0 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="4"/>
+                <RowDefinition Height="*" MinHeight="75"/>
+            </Grid.RowDefinitions>
+
+            <GridSplitter VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Background="#414141" Margin="0 1"/>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" MinWidth="100"/>
+                    <ColumnDefinition Width="4"/>
                     <ColumnDefinition Width="2*" MinWidth="100"/>
-				</Grid.ColumnDefinitions>
+                </Grid.ColumnDefinitions>
 
                 <Grid Name="editorCanv" Grid.Column="0" Background="#1E1E1E">
                     <Grid.ColumnDefinitions>
@@ -80,24 +84,24 @@
                         x
                     </Button>
 
-                    <TextBox TextWrapping="Wrap" AcceptsReturn="True" Grid.ColumnSpan="2" Grid.Row="1" Foreground="#b5b5b5" Background="#1E1E1E"/>
+                    <TextBox x:Name="input" x:FieldModifier="public" TextWrapping="Wrap" AcceptsReturn="True" Grid.ColumnSpan="2" Grid.Row="1" Foreground="#b5b5b5" Background="#1E1E1E"/>
                 </Grid>
 
                 <GridSplitter Name="overlaySplitter" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" Background="#414141" Margin="1 0"/>
 
                 <Grid Name="outputCanv" Grid.Column="2" Background="#1E1E1E">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition/>
-						<ColumnDefinition Width="25"/>
-					</Grid.ColumnDefinitions>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="25"/>
-						<RowDefinition/>
-					</Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="25"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
 
-					<Label FontSize="12" Foreground="#8E8E8E" Margin="5 0 0 0">
-						<TextBlock TextDecorations="Underline">Output</TextBlock>
-					</Label>
+                    <Label FontSize="12" Foreground="#8E8E8E" Margin="5 0 0 0">
+                        <TextBlock TextDecorations="Underline">Output</TextBlock>
+                    </Label>
 
                     <Button Grid.Column="1" Foreground="#8E8E8E" Click="CloseTab" Tag="output">
                         <Button.Background>
@@ -106,12 +110,12 @@
                         <Button.BorderBrush>
                             <SolidColorBrush Opacity="0"/>
                         </Button.BorderBrush>
-                        x	
+                        x
                     </Button>
 
                     <Canvas Grid.ColumnSpan="2" Grid.Row="1"></Canvas>
-				</Grid>
-			</Grid>
-		</Grid>
-	</Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
 </Window>
