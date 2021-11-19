@@ -23,8 +23,24 @@ namespace Interpreter_ATARI_Logo
             InitializeComponent();
             DataContext = this;
         }
-
         public Brush Color { get; set; } = new SolidColorBrush(Colors.Black);
         public double Size { get; set; } = 70;
+        public double Angle { get; set; } = 0;
+
+        public void Rotate(double angle)
+        {
+            Angle += angle;
+            if (Angle > 360)
+            {
+                Angle -= 360;
+            }
+            else if (Angle < 0)
+            {
+                Angle += 360;
+            }
+
+            RotateTransform rotation = new RotateTransform(Angle, svg.ActualWidth / 2, svg.ActualHeight / 2);
+            svg.RenderTransform = rotation;
+        }
     }
 }

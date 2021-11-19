@@ -47,8 +47,6 @@ namespace Interpreter_ATARI_Logo
 
             foreach (Turtle turtle in turtles)
             {
-                double size = turtle.Size;
-
                 double currentLeft = (double)turtle.GetValue(Canvas.LeftProperty);
                 double currentTop = (double)turtle.GetValue(Canvas.TopProperty);
 
@@ -112,7 +110,7 @@ namespace Interpreter_ATARI_Logo
             }
         }
 
-        private void AddTurtle()
+        public void AddTurtle()
         {
             Turtle turtle = new Turtle();
 
@@ -124,6 +122,45 @@ namespace Interpreter_ATARI_Logo
             turtles.Add(turtle);
 
             board.Children.Add(turtle);
+        }
+
+        public void Move(float distance)
+        {
+            Turtle turtle = turtles[0];
+            double angle = Math.PI / 180 * turtle.Angle;
+
+            double currentTop = (double)turtle.GetValue(Canvas.TopProperty);
+            double currentLeft = (double)turtle.GetValue(Canvas.LeftProperty);
+
+            double cos = Math.Cos(angle);
+            double sin = Math.Sin(angle);
+
+            float absDistance = Math.Abs(distance);
+
+            double a = sin * distance;
+            double b = cos * distance;
+
+            if (angle == 0 || angle == 360)
+            {
+                turtle.SetValue(Canvas.TopProperty, currentTop - distance);
+            }
+            else if (angle == 90)
+            {
+                turtle.SetValue(Canvas.LeftProperty, currentLeft + distance);
+            }
+            else if (angle == 180)
+            {
+                turtle.SetValue(Canvas.TopProperty, currentTop + distance);
+            }
+            else if (angle == 270)
+            {
+                turtle.SetValue(Canvas.LeftProperty, currentLeft - distance);
+            }
+            else
+            {
+                turtle.SetValue(Canvas.LeftProperty, currentLeft + a);
+                turtle.SetValue(Canvas.TopProperty, currentTop - b);
+            }
         }
 
         private void CloseWindow(object sender, RoutedEventArgs e)

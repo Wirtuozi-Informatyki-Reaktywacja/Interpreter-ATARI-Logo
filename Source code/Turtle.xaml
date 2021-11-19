@@ -7,13 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="{Binding Size}" d:DesignWidth="{Binding Size}">
     <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform" Height="{Binding Size}">
-        <Canvas Name="svg5" Width="198.4375" Height="198.43751">
-            <Canvas.RenderTransform>
-                <!--<TranslateTransform X="-99.21875" Y="-99.212755"/>-->
-                <TranslateTransform X="0" Y="0"/>
-            </Canvas.RenderTransform>
-            <Canvas.Resources/>
-            <!--Unknown tag: sodipodi:namedview-->
+        <Canvas Name="svg" Width="198.4375" Height="198.43751">
             <Canvas Name="layer1">
                 <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path" Fill="{Binding Color}" StrokeThickness="0.295684">
                     <Path.Data>
