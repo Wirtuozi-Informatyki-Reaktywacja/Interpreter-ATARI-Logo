@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,9 @@ namespace Interpreter_ATARI_Logo
     {
         public static RoutedCommand Execute = new RoutedCommand();
         public static List<Turtle> turtles = new List<Turtle>();
+        private List<Line> lines = new List<Line>();
+
+        public bool PenDown { get; set; } = true;
 
         double canvasWidth;
         double canvasHeight;
@@ -110,11 +114,22 @@ namespace Interpreter_ATARI_Logo
             }
         }
 
+        public void ClearScreen()
+        {
+            board.Children.Clear();
+            lines.Clear();
+
+            foreach (Turtle turtle in turtles)
+            {
+                board.Children.Add(turtle);
+            }
+        }
+
         public void AddTurtle()
         {
             Turtle turtle = new Turtle();
 
-            double size = turtle.Size;
+            float size = turtle.Size;
 
             turtle.SetValue(Canvas.LeftProperty, canvasWidth / 2 - size / 2);
             turtle.SetValue(Canvas.TopProperty, canvasHeight / 2 - size / 2);
@@ -127,40 +142,50 @@ namespace Interpreter_ATARI_Logo
         public void Move(float distance)
         {
             Turtle turtle = turtles[0];
-            double angle = Math.PI / 180 * turtle.Angle;
+            float angle = MathF.PI / 180 * turtle.Angle;
+            float size = turtle.Size;
+
+            Vector2 direction = new Vector2(0, 1);
 
             double currentTop = (double)turtle.GetValue(Canvas.TopProperty);
             double currentLeft = (double)turtle.GetValue(Canvas.LeftProperty);
 
-            double cos = Math.Cos(angle);
-            double sin = Math.Sin(angle);
+            float cos = MathF.Cos(angle);
+            float sin = MathF.Sin(angle);
 
-            float absDistance = Math.Abs(distance);
+            float tx = direction.X;
+            float ty = direction.Y;
 
-            double a = sin * distance;
-            double b = cos * distance;
+            direction.X = (cos * tx) - (sin * ty);
+            direction.Y = (sin * tx) + (cos * ty);
 
-            if (angle == 0 || angle == 360)
+            turtle.SetValue(Canvas.LeftProperty, currentLeft - direction.X * distance);
+            turtle.SetValue(Canvas.TopProperty, currentTop - direction.Y * distance);
+
+            if (PenDown)
             {
-                turtle.SetValue(Canvas.TopProperty, currentTop - distance);
+                Vector2 begin = new Vector2((float)currentLeft + size / 2, (float)currentTop + size / 2);
+                Vector2 end = begin - direction * distance;
+
+                Draw(begin, end);
             }
-            else if (angle == 90)
+        }
+
+        private void Draw (Vector2 begin, Vector2 end)
+        {
+            Line line = new Line()
             {
-                turtle.SetValue(Canvas.LeftProperty, currentLeft + distance);
-            }
-            else if (angle == 180)
-            {
-                turtle.SetValue(Canvas.TopProperty, currentTop + distance);
-            }
-            else if (angle == 270)
-            {
-                turtle.SetValue(Canvas.LeftProperty, currentLeft - distance);
-            }
-            else
-            {
-                turtle.SetValue(Canvas.LeftProperty, currentLeft + a);
-                turtle.SetValue(Canvas.TopProperty, currentTop - b);
-            }
+                Stroke = Brushes.Black,
+                X1 = begin.X,
+                X2 = end.X,
+                Y1 = begin.Y,
+                Y2 = end.Y,
+                StrokeThickness = 2,
+            };
+
+            lines.Add(line);
+
+            board.Children.Add(line);
         }
 
         private void CloseWindow(object sender, RoutedEventArgs e)

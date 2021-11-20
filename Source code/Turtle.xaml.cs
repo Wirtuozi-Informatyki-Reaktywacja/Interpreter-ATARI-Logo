@@ -24,10 +24,10 @@ namespace Interpreter_ATARI_Logo
             DataContext = this;
         }
         public Brush Color { get; set; } = new SolidColorBrush(Colors.Black);
-        public double Size { get; set; } = 70;
-        public double Angle { get; set; } = 0;
+        public float Size { get; set; } = 70;
+        public float Angle { get; set; } = 0;
 
-        public void Rotate(double angle)
+        public void Rotate(float angle)
         {
             Angle += angle;
             if (Angle > 360)

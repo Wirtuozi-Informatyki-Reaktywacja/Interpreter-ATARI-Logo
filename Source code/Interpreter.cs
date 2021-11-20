@@ -15,6 +15,9 @@ namespace Interpreter_ATARI_Logo
         public static Command<int> BK;
         public static Command<int> RT;
         public static Command<int> LT;
+        public static Command PU;
+        public static Command PD;
+        public static Command CS;
 
         static MainWindow window = Application.Current.Windows[0] as MainWindow;
 
@@ -22,10 +25,13 @@ namespace Interpreter_ATARI_Logo
         {
             HT = new Command("HT", "Hides turtle.", "HT", () => { MainWindow.turtles[0].Visibility = Visibility.Hidden; });
             ST = new Command("ST", "Shows turtle.", "ST", () => { MainWindow.turtles[0].Visibility = Visibility.Visible; });
-            FD = new Command<int>("FD", "Shows turtle.", "FD", (x) => { window.Move(x); });
-            BK = new Command<int>("BK", "Shows turtle.", "BK", (x) => { window.Move(-x); });
-            RT = new Command<int>("RT", "Shows turtle.", "RT", (x) => { MainWindow.turtles[0].Rotate(x); });
-            LT = new Command<int>("LT", "Shows turtle.", "LT", (x) => { MainWindow.turtles[0].Rotate(-x); });
+            FD = new Command<int>("FD", "Moves turtle forwards.", "FD", (x) => { window.Move(x); });
+            BK = new Command<int>("BK", "Moves turtle backwards.", "BK", (x) => { window.Move(-x); });
+            RT = new Command<int>("RT", "Turns turtle right by asked angle (in degrees).", "RT", (x) => { MainWindow.turtles[0].Rotate(x); });
+            LT = new Command<int>("LT", "Turns turtle left by asked angle (in degrees).", "LT", (x) => { MainWindow.turtles[0].Rotate(-x); });
+            PU = new Command("PU", "Turtle trail turned off.", "PU", () => { window.PenDown = false; });
+            PD = new Command("PD", "Turtle trail turned on.", "PD", () => { window.PenDown = true; });
+            CS = new Command("CS", "Clears turtle trails.", "CS", () => { window.ClearScreen(); });
 
             commandList = new List<CommandBase>
             {
@@ -34,7 +40,10 @@ namespace Interpreter_ATARI_Logo
                 FD,
                 BK,
                 RT,
-                LT
+                LT,
+                PU,
+                PD,
+                CS
             };
         }
 
@@ -62,13 +71,12 @@ namespace Interpreter_ATARI_Logo
                         if (commandList[i1] as Command != null)
                         {
                             (commandList[i1] as Command).Invoke();
-                            //properties.RemoveAt(i);
                             break;
                         }
                         else if (commandList[i1] as Command<int> != null)
                         {
                             (commandList[i1] as Command<int>).Invoke(int.Parse(properties[i + 1]));
-                            //properties.RemoveAt(i);
+                            i++;
                             break;
                         }
                     }
