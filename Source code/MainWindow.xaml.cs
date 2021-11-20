@@ -22,13 +22,11 @@ namespace Interpreter_ATARI_Logo
     public partial class MainWindow : Window
     {
         public static RoutedCommand Execute = new RoutedCommand();
+        public static RoutedCommand Help = new RoutedCommand();
         public static List<Turtle> turtles = new List<Turtle>();
         private List<Line> lines = new List<Line>();
 
         public bool PenDown { get; set; } = true;
-
-        double canvasWidth;
-        double canvasHeight;
 
         public MainWindow()
         {
@@ -40,12 +38,13 @@ namespace Interpreter_ATARI_Logo
             board.SizeChanged += Board_SizeChanged;
 
             Execute.InputGestures.Add(new KeyGesture(Key.F6));
+            Help.InputGestures.Add(new KeyGesture(Key.F5));
         }
 
         private void Board_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            double widthDiffrence = (canvasWidth - board.ActualWidth) / 2;
-            double heightDiffrence = (canvasHeight - board.ActualHeight) / 2;
+            double widthDiffrence = (e.PreviousSize.Width - e.NewSize.Width) / 2;
+            double heightDiffrence = (e.PreviousSize.Height - e.NewSize.Height) / 2;
 
 
 
@@ -58,15 +57,22 @@ namespace Interpreter_ATARI_Logo
                 turtle.SetValue(Canvas.TopProperty, currentTop - heightDiffrence);
             }
 
-            canvasWidth = board.ActualWidth;
-            canvasHeight = board.ActualHeight;
+            foreach (Line line in lines)
+            {
+                double x1 = line.X1;
+                double x2 = line.X2;
+                double y1 = line.Y1;
+                double y2 = line.Y2;
+
+                line.X1 = x1 - widthDiffrence;
+                line.X2 = x2 - widthDiffrence;
+                line.Y1 = y1 - heightDiffrence;
+                line.Y2 = y2 - heightDiffrence;
+            }
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            canvasWidth = board.ActualWidth;
-            canvasHeight = board.ActualHeight;
-
             AddTurtle();
         }
 
@@ -131,8 +137,8 @@ namespace Interpreter_ATARI_Logo
 
             float size = turtle.Size;
 
-            turtle.SetValue(Canvas.LeftProperty, canvasWidth / 2 - size / 2);
-            turtle.SetValue(Canvas.TopProperty, canvasHeight / 2 - size / 2);
+            turtle.SetValue(Canvas.LeftProperty, board.ActualWidth / 2 - size / 2);
+            turtle.SetValue(Canvas.TopProperty, board.ActualHeight / 2 - size / 2);
 
             turtles.Add(turtle);
 
@@ -211,9 +217,39 @@ namespace Interpreter_ATARI_Logo
             }
         }
 
-        private void Command_Execute(object sender, ExecutedRoutedEventArgs e)
+        private void Command_Execute(object sender, RoutedEventArgs e)
         {
             Interpreter.ProccessInput();
+        }
+
+        private void Command_Help(object sender, RoutedEventArgs e)
+        {
+            if (showOutput.IsChecked == false)
+            {
+                showOutput.IsChecked = true;
+                UpdateBottomOverlay();
+            }
+
+            List<CommandBase> commandList = Interpreter.commandList;
+
+            foreach(CommandBase command in commandList)
+            {
+                PrintLine(command.commandId + " - " + command.commandDescription + " - " + command.commandFormat);
+            }
+        }
+
+        public void PrintLine(string text)
+        {
+            if (output.Text == "")
+            {
+                output.Text += text;
+            }
+            else
+            {
+                output.Text += Environment.NewLine + text;
+            }
+
+            outputScroll.ScrollToBottom();
         }
     }
 }

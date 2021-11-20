@@ -50,4 +50,19 @@ namespace Interpreter_ATARI_Logo
             command.Invoke(value);
         }
     }
+
+    public class Command<T1, T2> : CommandBase
+    {
+        private Action<T1, T2> command;
+
+        public Command(string id, string description, string format, Action<T1, T2> command) : base(id, description, format)
+        {
+            this.command = command;
+        }
+
+        public void Invoke(T1 value1, T2 value2)
+        {
+            command.Invoke(value1, value2);
+        }
+    }
 }
