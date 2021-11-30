@@ -32,7 +32,7 @@
                     <AccessText Foreground="#8E8E8E" FontSize="12" VerticalAlignment="Center" Margin="5">_Window</AccessText>
                 </MenuItem.Header>
 
-                <MenuItem Name="showOutput" Header="_Show output" IsCheckable="True" IsChecked="false" Click="UpdateBottomOverlay"/>
+                <MenuItem Name="showOutput" Header="_Show output" IsCheckable="True" IsChecked="true" Click="UpdateBottomOverlay"/>
                 <MenuItem Name="showEditor" Header="_Show editor" IsCheckable="True" IsChecked="true" Click="UpdateBottomOverlay"/>
             </MenuItem>
 

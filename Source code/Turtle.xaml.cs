@@ -23,7 +23,7 @@ namespace Interpreter_ATARI_Logo
             InitializeComponent();
             DataContext = this;
         }
-        public Brush Color { get; set; } = new SolidColorBrush(Colors.Black);
+        public Brush Color { get; set; } = new SolidColorBrush(Colors.DarkGray);
         public float Size { get; set; } = 70;
         public float Angle { get; set; } = 0;
 

@@ -4,6 +4,11 @@ using System.Text;
 
 namespace Interpreter_ATARI_Logo
 {
+    public interface ICommand
+    {
+        public void Invoke();
+    }
+
     public class CommandBase
     {
         private string _commandId;
@@ -21,7 +26,7 @@ namespace Interpreter_ATARI_Logo
             _commandFormat = commandFormat;
         }
     }
-    public class Command : CommandBase
+    public class Command : CommandBase, ICommand
     {
         private Action command;
 
@@ -36,33 +41,55 @@ namespace Interpreter_ATARI_Logo
         }
     }
 
-    public class Command<T1> : CommandBase
+    public class Command<T1> : CommandBase, ICommand
     {
         private Action<T1> command;
+        private T1 param;
 
         public Command(string id, string description, string format, Action<T1> command) : base(id, description, format)
         {
             this.command = command;
         }
 
-        public void Invoke(T1 value)
+        public Command(Command<T1> _command, T1 param) : base(_command.commandId, _command.commandDescription, _command.commandFormat)
         {
-            command.Invoke(value);
+            command = _command.command;
+            this.param = param;
+        }
+
+        public void Invoke()
+        {
+            if (param != null)
+            {
+                command.Invoke(param);
+            }
         }
     }
 
-    public class Command<T1, T2> : CommandBase
+    public class Command<T1, T2> : CommandBase, ICommand
     {
         private Action<T1, T2> command;
+        private T1 param1;
+        private T2 param2;
 
         public Command(string id, string description, string format, Action<T1, T2> command) : base(id, description, format)
         {
             this.command = command;
         }
 
-        public void Invoke(T1 value1, T2 value2)
+        public Command(Command<T1, T2> _command, T1 param1, T2 param2) : base(_command.commandId, _command.commandDescription, _command.commandFormat)
         {
-            command.Invoke(value1, value2);
+            command = _command.command;
+            this.param1 = param1;
+            this.param2 = param2;
+        }
+
+        public void Invoke()
+        {
+            if (param1 != null && param2 != null)
+            {
+                command.Invoke(param1, param2);
+            }
         }
     }
 }

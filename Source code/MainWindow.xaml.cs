@@ -139,6 +139,7 @@ namespace Interpreter_ATARI_Logo
 
             turtle.SetValue(Canvas.LeftProperty, board.ActualWidth / 2 - size / 2);
             turtle.SetValue(Canvas.TopProperty, board.ActualHeight / 2 - size / 2);
+            turtle.SetValue(Canvas.ZIndexProperty, 1);
 
             turtles.Add(turtle);
 
@@ -219,7 +220,7 @@ namespace Interpreter_ATARI_Logo
 
         private void Command_Execute(object sender, RoutedEventArgs e)
         {
-            Interpreter.ProccessInput();
+            Interpreter.Execute();
         }
 
         private void Command_Help(object sender, RoutedEventArgs e)

@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Interpreter_ATARI_Logo</RootNamespace>
     <UseWPF>true</UseWPF>
+    <Version>0.9.0</Version>
   </PropertyGroup>
 
 </Project>

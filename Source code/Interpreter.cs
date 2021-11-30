@@ -2,11 +2,20 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Text;
+using System.Windows.Controls;
+using System.Collections.Specialized;
 
 namespace Interpreter_ATARI_Logo
 {
     public static class Interpreter
     {
+        enum ParamFilter
+        {
+            Number,
+            String,
+            Array
+        }
+
         public static List<CommandBase> commandList;
 
         public static Command HT;
@@ -18,9 +27,12 @@ namespace Interpreter_ATARI_Logo
         public static Command PU;
         public static Command PD;
         public static Command CS;
-        public static Command<int, List<string>> REPEAT;
+        public static Command<int, Queue<ICommand>> REPEAT;
+
+        static Queue<ICommand> commandQueue = new Queue<ICommand>();
 
         static MainWindow window = Application.Current.Windows[0] as MainWindow;
+        static TextBox inputField = window.input;
 
         static Interpreter()
         {
@@ -33,12 +45,13 @@ namespace Interpreter_ATARI_Logo
             PU = new Command("PU", "Turtle trail turned off.", "PU", () => { window.PenDown = false; });
             PD = new Command("PD", "Turtle trail turned on.", "PD", () => { window.PenDown = true; });
             CS = new Command("CS", "Clears turtle trails.", "CS", () => { window.ClearScreen(); });
-            REPEAT = new Command<int, List<string>>("REPEAT", "Repeats instructions specified amount of times.", "REPEAT <amount> [<instructions>]", (x, y) =>
+            REPEAT = new Command<int, Queue<ICommand>>("REPEAT", "Repeats instructions specified amount of times.", "REPEAT <amount> [<instructions>]", (x, y) =>
             {
                 for (int i = 0; i < x; i++)
                 {
-                    ProccessInput(y);
+                    CommandExecute(y);
                 }
+                y.Clear();
             });
 
             commandList = new List<CommandBase>
@@ -56,115 +69,271 @@ namespace Interpreter_ATARI_Logo
             };
         }
 
-        public static void ProccessInput(List<string> properties = null)
+        public static void Execute()
         {
-            if (properties == null)
+            StringCollection lines = new StringCollection();
+
+            for (int i = 0; i < inputField.LineCount; i++)
             {
-                string input = "";
-
-                for (int i = 0; i < window.input.LineCount; i++)
-                {
-                    input += window.input.GetLineText(i) + " ";
-                }
-
-                properties = new List<string>(input.ToUpper().Split(' '));
+                lines.Add(inputField.GetLineText(i).ToUpper().Trim());
             }
 
-            for (int i = 0; i < properties.Count; i++)
+            if (InputParser(lines, out commandQueue))
             {
-                string property = properties[i];
+                CommandExecute(commandQueue);
+            }
+            commandQueue.Clear();
+        }
 
-                for (int i1 = 0; i1 < commandList.Count; i1++)
+        private static bool InputParser(StringCollection lines, out Queue<ICommand> queue)
+        {
+            queue = new Queue<ICommand>();
+            CodeLocation location = new CodeLocation();
+
+            for (int lineIndex = 0; lineIndex < lines.Count; lineIndex++)
+            {
+                location.Line = lineIndex;
+                string line = lines[lineIndex];
+
+                for (int characterIndex = 0; characterIndex < lines[lineIndex].Length; characterIndex++)
                 {
-                    CommandBase commandBase = commandList[i1];
+                    location.Character = characterIndex;
+                    char character = line[characterIndex];
 
-                    if (property.Contains(commandBase.commandId))
+                    if (char.IsLetter(character))
                     {
-                        if ((commandList[i1] as Command) != null)
+                        string property = GetConnectedLetters(line, characterIndex, out characterIndex);
+
+                        for (int commandIndex = 0; commandIndex < commandList.Count; commandIndex++)
                         {
-                            (commandList[i1] as Command).Invoke();
-                            break;
-                        }
-                        else if ((commandList[i1] as Command<int>) != null)
-                        {
-                            try
+                            var command = commandList[commandIndex];
+
+                            if (property.Contains(command.commandId))
                             {
-                                (commandList[i1] as Command<int>).Invoke(int.Parse(properties[i + 1]));
-                            }
-                            catch
-                            {
-                                //window.PrintLine(properties[i + 1]);
-                            }
-                            i++;
-                            break;
-                        }
-                        else if ((commandList[i1] as Command<int, List<string>>) != null)
-                        {
-                            if (ProccessInputArray(properties, i + 2, out int end))
-                            {
-                                List<string> array = new List<string>();
-                                for (int i2 = i + 2; i2 <= end; i2++)
+                                if ((command as Command) != null)
                                 {
-                                    string arrayContent = properties[i2];
+                                    queue.Enqueue(command as ICommand);
+                                    break;
+                                }
+                                else if ((command as Command<int>) != null)
+                                {
+                                    string paramPreParse = GetParameter(line, characterIndex + 2, out int paramEnd);
 
-                                    if (i2 == i || i2 == end)
+                                    if (int.TryParse(paramPreParse, out int param))
                                     {
-                                        arrayContent = arrayContent.Trim(new char[] { '[', ']' });
+                                        characterIndex = paramEnd;
+                                        Command<int> commandClone = new Command<int>(command as Command<int>, param);
+
+                                        queue.Enqueue(commandClone);
+                                        break;
                                     }
-
-                                    if (arrayContent != "")
+                                    else
                                     {
-                                        window.PrintLine(arrayContent);
-                                        array.Add(arrayContent);
+                                        window.PrintLine($"Error at {location} - parameter is not correct");
+                                        return false;
                                     }
                                 }
+                                else if ((command as Command<int, Queue<ICommand>>) != null)
+                                {
+                                    string paramPreParse = GetParameter(line, characterIndex + 2, out int paramEnd);
 
-                                (commandList[i1] as Command<int, List<string>>).Invoke(int.Parse(properties[i + 1]), array);
-                                i = end;
+                                    if (int.TryParse(paramPreParse, out int param))
+                                    {
+                                        CodeLocation arrayStart;
+
+                                        if (paramEnd + 2 >= line.Length)
+                                        {
+                                            arrayStart = new CodeLocation(lineIndex + 1, 0);
+                                        }
+                                        else
+                                        {
+                                            arrayStart = new CodeLocation(lineIndex, paramEnd + 2);
+                                        }
+
+                                        if (FindArray(lines, arrayStart, out CodeLocation arrayEnd))
+                                        {
+                                            lineIndex = arrayEnd.Line;
+                                            characterIndex = arrayEnd.Character;
+
+                                            StringCollection collection = Trim(lines, 
+                                                new CodeLocation(arrayStart.Line, arrayStart.Character + 1), 
+                                                new CodeLocation(arrayEnd.Line, arrayEnd.Character - 1));
+
+                                            if (InputParser(collection, out Queue<ICommand> repeatQueue))
+                                            {
+                                                Command<int, Queue<ICommand>> commandClone = new Command<int,Queue<ICommand>>
+                                                    (command as Command<int, Queue<ICommand>>,
+                                                    param, repeatQueue);
+
+                                                queue.Enqueue(commandClone);
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                return false;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            return false;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        window.PrintLine($"Error at {location} - parameter is not correct");
+                                        return false;
+                                    }
+                                }
+                                else
+                                {
+                                    window.PrintLine($"Error at {location} - command not found");
+                                    return false;
+                                }
+                            }
+                            else if (commandIndex == commandList.Count - 1)
+                            {
+                                window.PrintLine($"Error at {location} - command not found");
+                                return false;
                             }
                         }
                     }
+                    else if (char.IsWhiteSpace(character))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        window.PrintLine($"Error at {location} - command cannot be a number");
+                        return false;
+                    }
                 }
             }
+
+            return true;
         }
 
-        private static bool ProccessInputArray(List<string> properties, int start, out int end)
+        private static string GetConnectedLetters(string line, int start, out int end)
         {
-            end = -1;
+            string output = "";
+            end = start;
 
-            if (properties[start].Contains('['))
+            for (int i = start; i < line.Length; i++)
             {
-                bool foundEnd = false;
-
-                for (int i = start; i < properties.Count; i++)
+                if (char.IsWhiteSpace(line, i))
                 {
-                    string property = properties[i];
+                    break;
+                }
+                else
+                {
+                    output += line[i];
+                }
+                end = i;
+            }
 
-                    if (property.Contains('[') && i != start)
+            return output;
+        }
+
+        private static string GetParameter(string line, int start, out int end)
+        {
+            string output = "";
+            end = start;
+
+            for (int i = start; i < line.Length; i++)
+            {
+                if (char.IsWhiteSpace(line, i))
+                {
+                    break;
+                }
+                else
+                {
+                    output += line[i];
+                }
+
+                end = i;
+            }
+
+            return output;
+        }
+
+        private static bool FindArray(StringCollection lines, CodeLocation start, out CodeLocation end)
+        {
+            CodeLocation location = new CodeLocation();
+
+            end = start;
+
+            for (int lineIndex = start.Line; lineIndex < lines.Count; lineIndex++)
+            {
+                location.Line = lineIndex;
+                string line = lines[lineIndex];
+
+                for (int characterIndex = 0; characterIndex < line.Length; characterIndex++)
+                {
+                    location.Character = characterIndex;
+                    char character = line[characterIndex];
+
+                    if (lineIndex == start.Line && characterIndex < start.Character)
                     {
-                        if (ProccessInputArray(properties, i, out int end2))
+                        continue;
+                    }
+
+                    if (character != '[' && location == start)
+                    {
+                        window.PrintLine($"Error at {location} - missing '['");
+                        return false;
+                    }
+                    else if (character == '[' && location != start)
+                    {
+                        if (FindArray(lines, location, out CodeLocation end1))
                         {
-                            i = end2;
-                            continue;
+                            lineIndex = end1.Line;
+                            characterIndex = end1.Character;
                         }
                         else
                         {
-                            break;
+                            window.PrintLine($"Error at {location} - array not closed");
+                            return false;
                         }
                     }
-
-                    if (property.Contains(']'))
+                    else if (character == ']')
                     {
-                        foundEnd = true;
-                        end = i;
-                        break;
+                        end = location;
+                        return true;
                     }
                 }
-
-                return foundEnd;
             }
 
+            window.PrintLine($"Error at {location} - array not found");
             return false;
+        }
+
+        private static StringCollection Trim(StringCollection collection, CodeLocation start, CodeLocation end)
+        {
+            StringCollection output = new StringCollection();
+
+            for (int lineIndex = start.Line; lineIndex <= end.Line; lineIndex++)
+            {
+                string line = collection[lineIndex];
+                string outputString = "";
+
+                for (int characterIndex = (lineIndex == start.Line) ? start.Character : 0; (lineIndex == end.Line) ? characterIndex <= end.Character : characterIndex < line.Length; characterIndex++)
+                {
+                    char character = line[characterIndex];
+
+                    outputString += character;
+                }
+
+                output.Add(outputString);
+            }
+
+            return output;
+        }
+
+        private static void CommandExecute(Queue<ICommand> queue)
+        {
+            foreach (ICommand command in queue)
+            {
+                command.Invoke();
+            }
         }
     }
 }
