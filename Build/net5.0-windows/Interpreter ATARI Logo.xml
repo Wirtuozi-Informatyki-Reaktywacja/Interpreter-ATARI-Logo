@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Interpreter ATARI Logo</name>
+    </assembly>
+    <members>
+        <member name="T:Interpreter_ATARI_Logo.App">
+            <summary>
+            Interaction logic for App.xaml
+            </summary>
+            <summary>
+            App
+            </summary>
+        </member>
+        <member name="M:Interpreter_ATARI_Logo.App.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:Interpreter_ATARI_Logo.App.Main">
+            <summary>
+            Application Entry Point.
+            </summary>
+        </member>
+        <member name="T:Interpreter_ATARI_Logo.MainWindow">
+            <summary>
+            Interaction logic for MainWindow.xaml
+            </summary>
+            <summary>
+            MainWindow
+            </summary>
+        </member>
+        <member name="F:Interpreter_ATARI_Logo.MainWindow.input">
+            <summary>
+            input Name Field
+            </summary>
+        </member>
+        <member name="M:Interpreter_ATARI_Logo.MainWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Interpreter_ATARI_Logo.Turtle">
+            <summary>
+            Logika interakcji dla klasy Turtle.xaml
+            </summary>
+            <summary>
+            Turtle
+            </summary>
+        </member>
+        <member name="M:Interpreter_ATARI_Logo.Turtle.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+    </members>
+</doc>

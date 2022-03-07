@@ -1,0 +1,24 @@
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Build\net5.0-windows\Interpreter ATARI Logo.exe
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Build\net5.0-windows\Interpreter ATARI Logo.deps.json
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Build\net5.0-windows\Interpreter ATARI Logo.runtimeconfig.json
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Build\net5.0-windows\Interpreter ATARI Logo.runtimeconfig.dev.json
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Build\net5.0-windows\Interpreter ATARI Logo.dll
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Build\net5.0-windows\ref\Interpreter ATARI Logo.dll
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Build\net5.0-windows\Interpreter ATARI Logo.pdb
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Build\net5.0-windows\Interpreter ATARI Logo.xml
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Release\net5.0-windows\MainWindow.g.cs
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Release\net5.0-windows\Turtle.g.cs
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Release\net5.0-windows\App.g.cs
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Release\net5.0-windows\Interpreter ATARI Logo_MarkupCompile.cache
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Release\net5.0-windows\Interpreter ATARI Logo_MarkupCompile.lref
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Release\net5.0-windows\MainWindow.baml
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Release\net5.0-windows\Turtle.baml
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Release\net5.0-windows\Interpreter ATARI Logo.g.resources
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Release\net5.0-windows\Interpreter ATARI Logo.GeneratedMSBuildEditorConfig.editorconfig
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Release\net5.0-windows\Interpreter ATARI Logo.AssemblyInfoInputs.cache
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Release\net5.0-windows\Interpreter ATARI Logo.AssemblyInfo.cs
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Release\net5.0-windows\Interpreter ATARI Logo.csproj.CoreCompileInputs.cache
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Release\net5.0-windows\Interpreter ATARI Logo.dll
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Release\net5.0-windows\ref\Interpreter ATARI Logo.dll
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Release\net5.0-windows\Interpreter ATARI Logo.pdb
+D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\obj\Release\net5.0-windows\Interpreter ATARI Logo.genruntimeconfig.cache

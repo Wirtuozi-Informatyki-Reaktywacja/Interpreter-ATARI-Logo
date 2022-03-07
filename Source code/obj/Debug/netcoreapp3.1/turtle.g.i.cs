@@ -413,7 +413,7 @@ namespace Interpreter_ATARI_Logo {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Interpreter ATARI Logo;component/turtle.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Interpreter ATARI Logo;V0.9.0.0;component/turtle.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\Turtle.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

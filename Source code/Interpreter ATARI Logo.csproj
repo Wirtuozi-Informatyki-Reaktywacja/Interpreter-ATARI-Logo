@@ -2,10 +2,17 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <RootNamespace>Interpreter_ATARI_Logo</RootNamespace>
     <UseWPF>true</UseWPF>
     <Version>0.9.0</Version>
+    <ApplicationIcon>turtle.ico</ApplicationIcon>
+    <StartupObject>Interpreter_ATARI_Logo.App</StartupObject>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Source code\Interpreter ATARI Logo.xml</DocumentationFile>
+    <OutputPath>D:\Motorola ScienceCup\Interpreter-ATARI-Logo\Build\</OutputPath>
   </PropertyGroup>
 
 </Project>
